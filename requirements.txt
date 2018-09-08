@@ -1,4 +1,8 @@
+flickrapi==2.4.0
+inflect==1.0.0
 jupyter==1.0.0
-requests==2.19.1
 lxml==4.1.1
+nltk==3.3
 pyquery=1.4.0
+requests==2.19.1
+wikipedia==1.4.0
