@@ -3,3 +3,4 @@ requests==2.19.1
 nltk==3.3
 inflect==1.0.0
 wikipedia==1.4.0
+flickrapi==2.4.0
