@@ -81,10 +81,14 @@ class PresseportalConnector(Connector):
             police or something similar for the requested region.
         '''
 
-        dienststellen_nr = self.get_random_office_for_location(
-            self.params['vacation_location']
-        )
-        return self.parse_announcement_from_overview(dienststellen_nr)
+        try:
+            dienststellen_nr = self.get_random_office_for_location(
+                self.params['vacation_location']
+            )
+            return self.parse_announcement_from_overview(dienststellen_nr)
+        except:
+            # ¯\_(ツ)_/¯
+            return f"\n\n{self.params['sender_name']}"
 
 
 # DEBUG
@@ -95,7 +99,7 @@ if __name__ == "__main__":
               "sender_gender": "male",
               "lang": "DE",
               "formal": False,
-              "vacation_location": "Darmstadt",
+              "vacation_location": "asdfafdas",
               "vacation_startdate": 1536314400,
               "vacation_enddate": 1536516000
               }
