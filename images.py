@@ -13,11 +13,11 @@ class Images:
                                       tag_mode='all',
                                       content_type=1,
                                       tags=locationName,
-                                      extras='url_o,url_l',
+                                      extras='url_o',
                                       sort='relevance')
         photos = [p for p in result[0]]
         if len(photos) == 0:
             return False;
-        return photos[0]
+        return photos[0].attrib['url_o']
 
 
