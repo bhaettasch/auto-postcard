@@ -31,16 +31,20 @@ class PresseportalConnector(Connector):
         urls = [url for url in content.xpath("//a/@href")
                 if url.startswith("/blaulicht/pm/")]
 
-        try:
-            rand_title = PresseportalConnector.parse_announcement_title(
-                    random.choice(urls))
+        # Ten tries, because dunno
+        for i in range(10):
+            try:
+                rand_title = PresseportalConnector.parse_announcement_title(
+                        random.choice(urls))
 
-            title = re_search(":(.*) \| Presseportal", rand_title). \
-                    group(1).strip()
+                title = re_search(":(.*) \| Presseportal", rand_title). \
+                        group(1).strip()
 
-            return f"\n\n{title}\n{self.params['sender_name']}"
-        except:
-            return "\n\n{self.params['sender_name']}"
+                return f"\n\n{title}\n{self.params['sender_name']}"
+            except:
+                pass
+
+        return f"\n\n{self.params['sender_name']}"
 
     def get_text(self):
         ''' Returns a random PRESSEMITTEILUNG (press release) from the German
