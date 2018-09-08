@@ -19,7 +19,7 @@ class PresseportalConnector(Connector):
         else:
             return None
 
-    def get_random_office_for_location(location):
+    def get_random_office_for_location(self, location):
         "Return ID of random duty office for given location."
 
         p = pq('https://www.presseportal.de/blaulicht/dienststellen')
@@ -81,7 +81,7 @@ class PresseportalConnector(Connector):
             police or something similar for the requested region.
         '''
 
-        dienststellen_nr = get_random_office_for_location(
+        dienststellen_nr = self.get_random_office_for_location(
             self.params['vacation_location']
         )
         return self.parse_announcement_from_overview(dienststellen_nr)
