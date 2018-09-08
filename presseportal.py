@@ -1,4 +1,5 @@
 from connector import Connector
+from pyquery import PyQuery as pq
 from lxml import html
 from re import search as re_search
 import random
@@ -17,6 +18,35 @@ class PresseportalConnector(Connector):
             return content.findtext(".//title")
         else:
             return None
+
+    def get_random_office_for_location(location):
+        "Return ID of random duty office for given location."
+
+        p = pq('https://www.presseportal.de/blaulicht/dienststellen')
+        office_elements = [
+            i for sublist
+            in [
+                c.findall('div')
+                for c in p('div.dienststellen-container')
+            ]
+            for i in sublist
+        ]
+        offices = [
+            (
+                dsel.find('a').text.strip(),
+                dsel.find('div').text.strip(),
+                int(dsel.find('a').attrib['href'].split('/')[-1])
+            )
+            for dsel in office_elements
+            if dsel.find('div') != None
+        ]
+        office_ids = [
+            ds[2]
+            for ds in offices
+            if location in ds[0]
+        ]
+
+        return random.choice(office_ids)
 
     def parse_announcement_from_overview(self, nr):
         """ Returns a random PRESSEMITTEILUNG for the region by the given number
@@ -51,7 +81,9 @@ class PresseportalConnector(Connector):
             police or something similar for the requested region.
         '''
 
-        dienststellen_nr = 43648  # TODO: select this by region
+        dienststellen_nr = get_random_office_for_location(
+            self.params['vacation_location']
+        )
         return self.parse_announcement_from_overview(dienststellen_nr)
 
 
