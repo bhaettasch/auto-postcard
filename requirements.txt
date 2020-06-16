@@ -4,5 +4,5 @@ jupyter==1.0.0
 lxml==4.1.1
 nltk==3.4.5
 pyquery==1.4.0
-requests==2.19.1
+requests==2.20.0
 wikipedia==1.4.0
